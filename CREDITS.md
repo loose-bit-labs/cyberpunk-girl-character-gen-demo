@@ -1,0 +1,3 @@
+- Music by <a href="https://pixabay.com/users/tazdev_music-37475890/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=191707">Ilya Myagkov</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=191707">Pixabay</a>
+- R22-25-General Rain.wav by craigsmith -- https://freesound.org/s/486260/ -- License: Creative Commons 0
+- Voiceover using [en_US-amy-medium](https://huggingface.co/rhasspy/piper-voices/blob/v1.0.0/en/en_US/amy/medium/en_US-amy-medium.onnx)
