@@ -2,9 +2,15 @@
 
 ## Introduction
 
+[Page](http://www.loose-bit-labs.com/cyberpunk-girl-character-gen-demo/)
+[GitHub](https://github.com/loose-bit-labs/cyberpunk-girl-character-gen-demo/)
+[Live Demo](https://www.loose-bit-labs.com/cyberpunk-girl-character-gen-demo/godot/CybergirlCharacterGenDemo.html)
+
 Inspired by a project that came across Reddit that generates 3D characters from example images. Let's embark on an exciting journey of creating a cyberpunk assassin girl character using Stable Diffusion for model generation, followed by animation via Mixamo and integration into the Godot game engine. The final result showcases impressive potential even though it's currently at a slightly lower resolution.
 
 <a href="https://github.com/zjp-shadow/CharacterGen/"><img width="60%" src="images/cpg00-cgen.png"/></a>
+
+Please see [credits](CREDITS.md) for details.
 
 ### Overview 
 
@@ -65,3 +71,5 @@ Another quirk to the model is that it is in multiple sections! Happily this didn
 The final character generation and animation process resulted in an impressive cyberpunk assassin girl model, despite the initial lower resolution. The project holds great promise for future iterations with higher-resolution models and more refined animations.
 
 The [CharacterGen](https://github.com/zjp-shadow/CharacterGen/) project has a lot more to it than explored here. It's also interesting to imagine more fully automated workflows.
+
+Bonus [timeline-for-shotcut.py](bin/timeline-for-shotcut.py) can be used to export timeline for clips in playlists in Shotcut MLT files.
