@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="3840"
+   height="2160"
+   viewBox="0 0 1016 571.5"
+   version="1.1"
+   id="svg5"
+   inkscape:export-filename="/home/vgvm/src/lbl/cyberpunk-girl-character-gen-demo/images/splash.png"
+   inkscape:export-xdpi="48"
+   inkscape:export-ydpi="48"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   sodipodi:docname="splash.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:snap-global="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     units="px"
+     inkscape:zoom="0.25"
+     inkscape:cx="818"
+     inkscape:cy="1676"
+     inkscape:window-width="3840"
+     inkscape:window-height="2111"
+     inkscape:window-x="1600"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient14243">
+      <stop
+         style="stop-color:#f1d3ff;stop-opacity:1"
+         offset="0"
+         id="stop14239" />
+      <stop
+         style="stop-color:#fe73ae;stop-opacity:0.94088829"
+         offset="1"
+         id="stop14241" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient14243"
+       id="linearGradient14245"
+       x1="-557.82635"
+       y1="322.47513"
+       x2="1148.1252"
+       y2="322.47513"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     style="display:inline"
+     transform="translate(337.6123,-42.803566)">
+    <image
+       width="508"
+       height="285.75"
+       preserveAspectRatio="none"
+       xlink:href="cpg04-mixamo.png"
+       id="image972"
+       x="170.3877"
+       y="328.55356" />
+    <image
+       width="508"
+       height="285.75"
+       preserveAspectRatio="none"
+       xlink:href="cpg03-decimate.png"
+       id="image984"
+       x="-337.6123"
+       y="328.55356" />
+    <image
+       width="508"
+       height="285.75"
+       preserveAspectRatio="none"
+       xlink:href="cpg00-cgen.png"
+       id="image1020"
+       x="-337.6123"
+       y="42.803566" />
+    <image
+       width="508"
+       height="285.75"
+       preserveAspectRatio="none"
+       xlink:href="cpg01-cgen.png"
+       id="image1008"
+       x="170.3877"
+       y="42.803566" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="Layer 3"
+     style="display:inline"
+     transform="translate(337.6123,-42.803566)">
+    <rect
+       style="fill:#000000;fill-opacity:0.520465;stroke-width:0.264583;stroke-opacity:0.333333"
+       id="rect13348"
+       width="1000.8685"
+       height="101.92568"
+       x="-330.83664"
+       y="499.63287" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:50.991px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';text-decoration-color:#000000;opacity:0.763827;fill:url(#linearGradient14245);fill-opacity:1;stroke-width:0.265578;-inkscape-stroke:none;stop-color:#000000"
+       x="-560.78381"
+       y="335.86026"
+       id="text3732"
+       transform="scale(0.57631565,1.7351602)"><tspan
+         sodipodi:role="line"
+         id="tspan3730"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:50.991px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:url(#linearGradient14245);fill-opacity:1;stroke-width:0.265578"
+         x="-560.78381"
+         y="335.86026">Cyberpunk Assassin Girl Project: AI Character Generation Workflow</tspan></text>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Layer 2"
+     style="display:inline;opacity:0.763827"
+     transform="translate(337.6123,-42.803566)">
+    <image
+       width="508"
+       height="285.75"
+       preserveAspectRatio="none"
+       xlink:href="cpg06-godot.png"
+       id="image948"
+       x="-110.82158"
+       y="170.5237" />
+  </g>
+</svg>
