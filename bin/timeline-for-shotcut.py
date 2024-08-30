@@ -53,7 +53,7 @@ class TimelineForShotcut:
                 if args.srt:
                     start = start.replace('.', ',')
                     end   = end.replace('.', ',')
-                    print(f'{index}\n{start} -> {end}\n{resource}\n')
+                    print(f'{index}\n{start} --> {end}\n{resource}\n')
                 else:
                     print(f'- {start:14} -> {end:14} : {resource}')
                 #print(f'Resource: {resource}, Start: {start}')
