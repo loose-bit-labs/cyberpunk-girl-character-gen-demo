@@ -12,6 +12,8 @@ Inspired by a project that came across Reddit that generates 3D characters from 
 
 Please see [credits](CREDITS.md) for details.
 
+<iframe width="1280" height="720" src="https://www.youtube.com/embed/W3163_qOPcE" title="Cyberpunk Assassin Girl Project: AI Character Generation Workflow" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 ### Overview 
 
 1. Initial character from stable diffusion [text-to-image](stable-diffusion/step1)
