@@ -14,8 +14,8 @@ var camera_rotation: Vector2 = Vector2.ZERO
 
 @onready var camera: Camera3D = $Camera
 @onready var pivot: Node3D = $Pivot
-@onready var animationPlayer : AnimationPlayer =  $"Pivot/mixamo-added-on-fun/AnimationPlayer"
-@onready var toon = $"Pivot/mixamo-added-on-fun"
+@onready var animationPlayer : AnimationPlayer =  $"Pivot/toon/AnimationPlayer"
+@onready var toon = $"Pivot/toon"
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -49,7 +49,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		velocity.z = move_toward(velocity.z, 0, SPEED)
-	animationPlayer.play(_pick_animation(direction, jumping))
+	animationPlayer.play(_pick_animation(input_dir, jumping))
 	_update_camera(delta)
 	move_and_slide()
 
@@ -88,13 +88,13 @@ func _update_camera(_delta) -> void:
 	var at = pivot.global_transform.origin + Vector3(0,.77,0)
 	camera.look_at(at, Vector3.UP)
 
-func _pick_animation(direction, jumping) -> String:
+func _pick_animation(input_dir, jumping) -> String:
 	var animation = "idle"
 	var speed = velocity.dot(velocity)
 	if speed > .1:
 		animation = "walking"
 	if speed > 5:
-		animation = _pick_run_animation(direction)
+		animation = _pick_run_animation(input_dir)
 	if jumping:
 		animation= "jump_up"
 	else:
@@ -102,20 +102,10 @@ func _pick_animation(direction, jumping) -> String:
 			animation = "falling"
 	return animation
 	
-func _pick_run_animation(direction) -> String:
-# Get the current velocity vector (ignoring Y axis)
-	var current_velocity := Vector3(velocity.x, 0, velocity.z)
-
-	# Calculate the dot product between the direction and velocity
-	#var dot_product = direction.dot(current_velocity.normalized())
-	# Calculate the cross product to determine the side (left or right)
-	var cross_product = direction.cross(current_velocity).y
-
-	# Determine the animation state based on the angle and direction
-	var threshold = .3
-	if cross_product > threshold:
+func _pick_run_animation(input_dir) -> String:
+	var threshold = .0330
+	if input_dir.x > threshold:
 		return "run_right"
-	elif cross_product < -threshold:
+	elif input_dir.x < -threshold:
 		return "run_left"
-	
 	return "running"

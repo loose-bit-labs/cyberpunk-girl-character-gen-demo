@@ -58,10 +58,9 @@ float goMin(vec2 st ) {
 }
 void  fragment() {
 	float l = goMax(UV.xy - .2);
-	vec3 c1 = vec3(.2, .2, .2); // ground
+	vec3 c1 = vec3(.1, .1, .1); // ground
 	vec3 c2 = vec3(.7, .7, .9); // walls
 
-	//c2 = vec3( .3 + square(VERTEX.xz * 77.7));
 	vec3 c = mix(c1, c2, l);
 	ALBEDO.rgb = c;
 }

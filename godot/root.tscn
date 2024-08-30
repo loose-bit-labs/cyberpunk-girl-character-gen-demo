@@ -52,7 +52,7 @@ script = ExtResource("1_2rirp")
 
 [node name="Pivot" type="Node3D" parent="Player"]
 
-[node name="mixamo-added-on-fun" parent="Player/Pivot" instance=ExtResource("2_0wbm8")]
+[node name="toon" parent="Player/Pivot" instance=ExtResource("2_0wbm8")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.52538, -0.0769311)
