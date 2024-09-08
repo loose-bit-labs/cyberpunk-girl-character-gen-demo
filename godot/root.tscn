@@ -1,58 +1,230 @@
-[gd_scene load_steps=11 format=3 uid="uid://brmg85s1oyk6y"]
+[gd_scene load_steps=27 format=3 uid="uid://brmg85s1oyk6y"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_2rirp"]
+[ext_resource type="Script" path="res://root.gd" id="1_hi1p5"]
 [ext_resource type="Shader" path="res://floor.gdshader" id="1_o5e0h"]
 [ext_resource type="PackedScene" uid="uid://bnprli1xpvc73" path="res://cybergirl-model.tscn" id="2_0wbm8"]
+[ext_resource type="Texture2D" uid="uid://bkn613fyw7dx2" path="res://hdri-comfyUI_00003_.png" id="2_wtw7c"]
+[ext_resource type="Shader" path="res://lobby.gdshader" id="4_2y5tm"]
+[ext_resource type="Texture2D" uid="uid://cihmvi6h5eqmb" path="res://lbl-nuts-and-bolts.png" id="5_ukvl5"]
+[ext_resource type="AudioStream" uid="uid://do6yvp1mio7aa" path="res://melodic-techno-03-extended-version-moogify-9867.mp3" id="6_384bk"]
+[ext_resource type="PackedScene" uid="uid://cokrj6e5xo4el" path="res://flopster.tscn" id="9_x8brx"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_6xnv3"]
-sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
-ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_rqdow"]
+panorama = ExtResource("2_wtw7c")
 
 [sub_resource type="Sky" id="Sky_0krvf"]
-sky_material = SubResource("ProceduralSkyMaterial_6xnv3")
+sky_material = SubResource("PanoramaSkyMaterial_rqdow")
 
 [sub_resource type="Environment" id="Environment_wj6sb"]
 background_mode = 2
+background_color = Color(0.749472, 0.602802, 0.695642, 1)
+background_energy_multiplier = 1.11
 sky = SubResource("Sky_0krvf")
 tonemap_mode = 2
+ssao_enabled = true
+sdfgi_enabled = true
 glow_enabled = true
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.0429
+volumetric_fog_albedo = Color(0.257921, 0.422882, 0.429353, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_sg6a1"]
-size = Vector2(100, 100)
-subdivide_width = 256
-subdivide_depth = 256
+size = Vector2(222, 222)
+subdivide_width = 512
+subdivide_depth = 512
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_blj5q"]
 render_priority = 0
 shader = ExtResource("1_o5e0h")
+shader_parameter/SEED = Vector3(22, 33, 44)
+shader_parameter/NEXT = false
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_l77kq"]
-size = Vector3(100, 0.01, 100)
+size = Vector3(222.009, 0.01, 222.032)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tupev"]
+render_priority = 0
+shader = ExtResource("4_2y5tm")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_rawd1"]
+material = SubResource("ShaderMaterial_tupev")
+size = Vector2(222, 222)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c0yyi"]
+transparency = 1
+albedo_color = Color(0, 0, 0, 0.0941176)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_s4fv7"]
 size = Vector3(0.5, 1.056, 0.3)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ygrdt"]
+albedo_texture = ExtResource("5_ukvl5")
+
+[sub_resource type="SystemFont" id="SystemFont_7wese"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_k8h8g"]
+font = SubResource("SystemFont_7wese")
+font_size = 24
+font_color = Color(0.884198, 0.519856, 0.788805, 1)
+outline_size = 2
+
+[sub_resource type="Animation" id="Animation_r3dqn"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Floor:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_hgayi"]
+resource_name = "new_animation"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/path = NodePath("Floor:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.966567, 0.966667, 1.46667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, true]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.433333, 1.23333, 1.33333, 2.73333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"values": [{
+"args": [],
+"method": &"_go_away_now"
+}, {
+"args": [],
+"method": &"_shader_next"
+}, {
+"args": [],
+"method": &"_seedling"
+}, {
+"args": [],
+"method": &"_shader_playing"
+}, {
+"args": [],
+"method": &"_diskmon"
+}]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Player")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.333333),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"dropper"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_tyn6g"]
+resource_name = "start_game"
+length = 5.0
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Player")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"dropper"
+}]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(-0.0333333, 0, 0.0666667, 0.233333, 4.53333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"values": [{
+"args": [],
+"method": &"_shader_next"
+}, {
+"args": [],
+"method": &"_shader_next"
+}, {
+"args": [],
+"method": &"_diskmon"
+}, {
+"args": [],
+"method": &"_seedling"
+}, {
+"args": [],
+"method": &"_shader_playing"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_i1qv6"]
+_data = {
+"RESET": SubResource("Animation_r3dqn"),
+"next_level": SubResource("Animation_hgayi"),
+"start_game": SubResource("Animation_tyn6g")
+}
+
 [node name="Root" type="Node3D"]
+script = ExtResource("1_hi1p5")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_wj6sb")
 
 [node name="Floor" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.101352, 0.0127377, 0.0787804)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.988226, -0.0368169, -0.492768)
 mesh = SubResource("PlaneMesh_sg6a1")
 surface_material_override/0 = SubResource("ShaderMaterial_blj5q")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Floor"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00127369, 0, 0.00327438)
 shape = SubResource("BoxShape3D_l77kq")
 
+[node name="InnerFloor" type="MeshInstance3D" parent="Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.04, 0)
+mesh = SubResource("PlaneMesh_rawd1")
+
 [node name="Player" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.27855, 0)
 script = ExtResource("1_2rirp")
 
 [node name="Pivot" type="Node3D" parent="Player"]
 
 [node name="toon" parent="Player/Pivot" instance=ExtResource("2_0wbm8")]
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Player/Pivot"]
+radius = 0.196741
+height = 0.00803271
+sides = 16
+material = SubResource("StandardMaterial3D_c0yyi")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.52538, -0.0769311)
@@ -63,6 +235,64 @@ transform = Transform3D(-1, -7.28307e-14, -8.74228e-08, -2.41029e-08, 0.961243, 
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Player/Camera"]
 transform = Transform3D(1, -2.41029e-08, 3.38829e-09, 2.41029e-08, 0.961243, -0.275704, 3.3883e-09, 0.275704, 0.961243, -0.168731, 0.265065, -0.562166)
+light_color = Color(0.667415, 0.416634, 0.794613, 1)
 light_energy = 2.0
 
+[node name="Flopster" parent="Player/Camera/DirectionalLight3D" instance=ExtResource("9_x8brx")]
+transform = Transform3D(-1, 1.87269e-08, 1.46885e-07, -1.58233e-08, 0.972776, -0.231748, -1.47226e-07, -0.231748, -0.972776, 1.50974, 0.295611, -0.627132)
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Player"]
+
+[node name="Underfloor" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, -0.044, 0)
+mesh = SubResource("PlaneMesh_sg6a1")
+surface_material_override/0 = SubResource("StandardMaterial3D_ygrdt")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Underfloor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 115.642, 0)
+light_energy = 100.0
+omni_range = 119.141
+
+[node name="Audio" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("6_384bk")
+autoplay = true
+
+[node name="Floppin" type="Node3D" parent="."]
+
+[node name="Status" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="Status"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Status/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_top = 80
+theme_override_constants/margin_right = 64
+theme_override_constants/margin_bottom = 80
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Status/Control/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Status/Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "SOLDIER, DATA NEEDED!"
+label_settings = SubResource("LabelSettings_k8h8g")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_i1qv6")
+}
+
+[connection signal="finished" from="Audio" to="." method="_on_audio_finished"]
