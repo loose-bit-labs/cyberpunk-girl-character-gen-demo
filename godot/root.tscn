@@ -38,6 +38,7 @@ subdivide_depth = 512
 render_priority = 0
 shader = ExtResource("1_o5e0h")
 shader_parameter/SEED = Vector3(22, 33, 44)
+shader_parameter/OFFSET = Vector2(0, 0)
 shader_parameter/NEXT = false
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_l77kq"]
@@ -83,6 +84,30 @@ tracks/0/keys = {
 "update": 1,
 "values": [true]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Player/Camera/DirectionalLight3D/Flopster:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Status:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_hgayi"]
 resource_name = "new_animation"
@@ -106,7 +131,7 @@ tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.433333, 1.23333, 1.33333, 2.73333),
+"times": PackedFloat32Array(0, 0.433333, 1.23333, 1.33333, 1.9),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "values": [{
 "args": [],
@@ -138,6 +163,30 @@ tracks/2/keys = {
 "args": [],
 "method": &"dropper"
 }]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Player/Camera/DirectionalLight3D/Flopster:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.0333333, 0.133333, 1.96667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Status:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.133333, 1.96667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, true]
 }
 
 [sub_resource type="Animation" id="Animation_tyn6g"]
@@ -198,7 +247,6 @@ script = ExtResource("1_hi1p5")
 environment = SubResource("Environment_wj6sb")
 
 [node name="Floor" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.988226, -0.0368169, -0.492768)
 mesh = SubResource("PlaneMesh_sg6a1")
 surface_material_override/0 = SubResource("ShaderMaterial_blj5q")
 
@@ -239,9 +287,14 @@ light_color = Color(0.667415, 0.416634, 0.794613, 1)
 light_energy = 2.0
 
 [node name="Flopster" parent="Player/Camera/DirectionalLight3D" instance=ExtResource("9_x8brx")]
-transform = Transform3D(-1, 1.87269e-08, 1.46885e-07, -1.58233e-08, 0.972776, -0.231748, -1.47226e-07, -0.231748, -0.972776, 1.50974, 0.295611, -0.627132)
+transform = Transform3D(-1, 1.8727e-08, 1.46885e-07, -1.58231e-08, 0.972776, -0.231748, -1.47226e-07, -0.231748, -0.972776, 1.39374, 0.250345, -0.627132)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Player"]
+
+[node name="Audio" type="AudioStreamPlayer3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.27855, 0)
+stream = ExtResource("6_384bk")
+autoplay = true
 
 [node name="Underfloor" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, -0.044, 0)
@@ -252,10 +305,6 @@ surface_material_override/0 = SubResource("StandardMaterial3D_ygrdt")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 115.642, 0)
 light_energy = 100.0
 omni_range = 119.141
-
-[node name="Audio" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource("6_384bk")
-autoplay = true
 
 [node name="Floppin" type="Node3D" parent="."]
 
@@ -276,23 +325,35 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 64
-theme_override_constants/margin_top = 80
-theme_override_constants/margin_right = 64
-theme_override_constants/margin_bottom = 80
+theme_override_constants/margin_left = 11
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 11
+theme_override_constants/margin_bottom = 7
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Status/Control/MarginContainer"]
 layout_mode = 2
 
 [node name="Label" type="Label" parent="Status/Control/MarginContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 0
 text = "SOLDIER, DATA NEEDED!"
 label_settings = SubResource("LabelSettings_k8h8g")
+
+[node name="MarginContainer" type="MarginContainer" parent="Status/Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 33
+
+[node name="Wanna" type="Label" parent="Status/Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "x 33"
+label_settings = SubResource("LabelSettings_k8h8g")
+horizontal_alignment = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_i1qv6")
 }
 
-[connection signal="finished" from="Audio" to="." method="_on_audio_finished"]
+[connection signal="finished" from="Player/Audio" to="." method="_on_audio_finished"]

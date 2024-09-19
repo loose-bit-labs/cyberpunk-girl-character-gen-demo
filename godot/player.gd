@@ -10,7 +10,9 @@ const JUMP_VELOCITY = 4.4
 @export var camera_speed: float = 0.005
 @export var zoom_speed: float = 0.5
 @export var min_zoom: float = 1.0
-@export var max_zoom: float = 50.0
+@export var max_zoom: float = 50.0	
+@export 	var camera_x_min = -77
+@export 	var camera_x_max = .55
 var camera_rotation: Vector2 = Vector2.ZERO
 
 @export var above_floor: Vector3 = Vector3(0,.55,0)
@@ -105,8 +107,8 @@ func _input(event):
 		camera_rotation.y -= event.relative.x * camera_speed
 
 	# Clamping the camera's x rotation to prevent flipping over
-	var camera_range = 77
-	camera_rotation.x = clamp(camera_rotation.x, deg_to_rad(-camera_range * 1), deg_to_rad(-camera_range * .02))
+	camera_rotation.x = clamp(camera_rotation.x, deg_to_rad(camera_x_min), deg_to_rad(camera_x_max))
+	#camera_rotation.x = clamp(camera_rotation.x, deg_to_rad(-camera_range * 1), deg_to_rad(-camera_range * .02))
 	
 	# Mouse wheel to zoom in/out
 	if event is InputEventMouseButton:

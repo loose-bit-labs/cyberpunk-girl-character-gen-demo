@@ -1,18 +1,19 @@
 shader_type spatial;
 
 uniform vec3 SEED = vec3(22., 33., 44.);
+uniform vec2 OFFSET = vec2(.0);
 uniform bool NEXT = false;
 
-// can't seem to mmake this work...
-//render_mode skip_vertex_transform;
+// can't seem to make this work...
 #define RAW_WORLD_
 #ifdef RAW_WORLD
+render_mode skip_vertex_transform;
 varying vec3 OG_VERTEX;
 #endif
 
 varying float IS_BUILDING;
 
-const float GRID = 16. * 1.;
+const float GRID = 16. * .5;
 const float FUDGE = .009;
 const vec2 OFFSET_X = vec2(FUDGE,.0);
 const vec2 OFFSET_Y = OFFSET_X.yx;
@@ -22,7 +23,7 @@ const float BUILDING_LO = 5.5   * 2.2;
 const float BUILDING_HI = 31.13 * 2.2;
 const float BUILDING_STEPS = 7.;
 
-//const float BUMPY = .22;
+const float LZ_BARE = .22; 
 
 const vec3 UP    = vec3(.0, .0, 1.); // blue
 const vec3 NORTH = vec3(.0, 1., .0); // green
@@ -38,6 +39,14 @@ float step_up(float f) {
 	return smoothstep(BUILDING_THRESHOLD, BUILDING_THRESHOLD+FUDGE, f);
 }
 
+float getGrid() {
+	return GRID; 
+	// won't work...
+	vec2 h = hash(OFFSET);
+	float g = .5 * h.x  + .5;
+	return GRID  * g;
+}
+
 float building(in vec2 xy, in vec2 og) {
 	// flip direction possibly
 	vec2 quirk = abs(hash(floor(og)));
@@ -51,8 +60,8 @@ float building(in vec2 xy, in vec2 og) {
 	xy *= 1. + vec2(mx, my) * l;
 
 	// leave some space for the drop
-	vec2 bc = og - GRID * .3;
-	float bare = step(.05, dot(bc, bc));
+	vec2 bc = og - getGrid() * .33;
+	float bare = step(LZ_BARE, dot(bc, bc));
 
 	return step_up(xy.x) * step_up(xy.y) * bare;
 }
@@ -73,38 +82,35 @@ float min5(float a, float b, float c, float d, float e) {
 
 float goMax(vec2 st ) {
 	return max5(
-		tile(st, GRID),
-		tile(st+OFFSET_X, GRID),
-		tile(st-OFFSET_X, GRID),
-		tile(st+OFFSET_Y, GRID),
-		tile(st-OFFSET_Y, GRID)
+		tile(st, getGrid()),
+		tile(st+OFFSET_X, getGrid()),
+		tile(st-OFFSET_X, getGrid()),
+		tile(st+OFFSET_Y, getGrid()),
+		tile(st-OFFSET_Y, getGrid())
 	);
 }
 
 float goMin(vec2 st ) {
 	return min5(
-		tile(st, GRID),
-		tile(st+OFFSET_X, GRID),
-		tile(st-OFFSET_X, GRID),
-		tile(st+OFFSET_Y, GRID),
-		tile(st-OFFSET_Y, GRID)
+		tile(st, getGrid()),
+		tile(st+OFFSET_X, getGrid()),
+		tile(st-OFFSET_X, getGrid()),
+		tile(st+OFFSET_Y, getGrid()),
+		tile(st-OFFSET_Y, getGrid())
 	);
 }
 
 vec3 map_normal(vec2 st) {
 	float f = 1.5;
-	float me = tile(st.xy, GRID);
-	float e = tile(st+OFFSET_X *f, GRID);
-	float w = tile(st-OFFSET_X *f, GRID);
-	float s = tile(st+OFFSET_Y *f, GRID);
-	float n = tile(st-OFFSET_Y *f, GRID);
+	float me = tile(st.xy, getGrid());
+	float e = tile(st+OFFSET_X *f, getGrid());
+	float w = tile(st-OFFSET_X *f, getGrid());
+	float s = tile(st+OFFSET_Y *f, getGrid());
+	float n = tile(st-OFFSET_Y *f, getGrid());
 
 	float maxo = .33;
 
-	// flat
-	//if (me==e && e == w && w == s && s == n) return UP;
 	if (abs(me - e) + abs(e - w) + abs(w - s) + abs(s - n) < maxo) return UP;
-
 
 	f = step(.0, me) * 2. -1.;
 	if (abs(me - e) + abs(me-w)<maxo) { // me == e && me == w)
@@ -125,7 +131,6 @@ float jarblish(in vec2 uv) {
 	return float(qa);
 }
 
-
 vec3 ground_color(in vec2 uv) {
 	vec4 hex = hexTile(uv * 2222.);
 	vec3 color = vec3(.4,.7,.4) * smoothstep(.02120,.02020, hex.y);
@@ -143,16 +148,13 @@ vec3 wall_color(in vec2 uv, in vec3 p, in vec3 n) {
 
 	st = fract(st);
 	return step_up(st.x) * step_up(st.y) * vec3(.9);
-
-	//return jarbleCircuitBoardFractal10(st * .2).gbr + vec3(.2,.1, -.5);
-	// this is very slow: return sbs(st, TIME);
-	//return circuit1(st + TIME, 11., 11., BUMPY);
 }
+
 vec3 fragment_playing(in vec2 uv , in vec3 p, in vec3 n) {
 	float l = goMax(uv); // works better than using IS_BUILDING
 
 	// not happy with this: l = BUILDING;
-	l = mix(l, IS_BUILDING, .11);
+	l = mix(l, IS_BUILDING, .33);	 
 
 	vec3 color = mix(ground_color(uv), wall_color(uv, p, n), l);
 	vec2 quirk = abs(hash(floor(99. * uv + TIME * 4.4)));
@@ -172,13 +174,20 @@ vec3 fragment_next(in vec2 uv, in vec3 p, in vec3 n) {
 	return p;
 }
 
+vec2 nowUVme(vec2 uv) {
+	return uv.xy + OFFSET - .2;
+}
+
 void fragment() {
-	vec2 uv = UV.xy - .2;
+	vec2 uv = nowUVme(UV);
 	vec3 p = VERTEX;
 #ifdef RAW_WORLD
 	p = OG_VERTEX;
 #endif
 	ALBEDO.rgb = NEXT ? fragment_next(uv, p, NORMAL) : fragment_playing(uv, p, NORMAL);
+	
+	////uv = step(.9, fract(uv *33.));
+	//ALBEDO.rgb = vec3(uv.x * uv.y);
 }
 
 void vertex() {
@@ -192,13 +201,13 @@ void vertex() {
     TANGENT = normalize((MODELVIEW_MATRIX * vec4(TANGENT, 0.0)).xyz);
 #endif
 
-	vec2 uv = UV.xy - .2;
+	vec2 uv = nowUVme(UV);
 	float building = goMin(uv);
 	IS_BUILDING = building;
 
-	vec2 quirk = abs(hash(floor(uv * GRID * .77)));
+	vec2 quirk = abs(hash(floor(uv * getGrid() * .77)));
 	float m = floor(quirk.x * BUILDING_STEPS) / BUILDING_STEPS;
-
-	VERTEX.y = building * mix(BUILDING_LO, BUILDING_HI, m) *1.001;
+	
+	VERTEX.y = building * mix(BUILDING_LO, BUILDING_HI, m) * 1.03;
 	NORMAL = normalize(map_normal(uv));
 }
