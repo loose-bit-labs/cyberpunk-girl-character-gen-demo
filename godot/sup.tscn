@@ -1,0 +1,141 @@
+[gd_scene load_steps=13 format=3 uid="uid://dwlsot771xws"]
+
+[ext_resource type="Shader" path="res://floor.gdshader" id="1_whdvc"]
+[ext_resource type="Script" path="res://sup.gd" id="1_xkks2"]
+[ext_resource type="AudioStream" uid="uid://bquiy87cid00w" path="res://background-loop-melodic-techno-01-2490.mp3" id="2_e8pkm"]
+[ext_resource type="PackedScene" uid="uid://bnprli1xpvc73" path="res://cybergirl-model.tscn" id="4_dhvcg"]
+[ext_resource type="PackedScene" uid="uid://cokrj6e5xo4el" path="res://flopster.tscn" id="5_er4a1"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a2qnu"]
+render_priority = 0
+shader = ExtResource("1_whdvc")
+shader_parameter/SEED = Vector3(22, 33, 44)
+shader_parameter/OFFSET = Vector2(0, 0)
+shader_parameter/NEXT = false
+shader_parameter/SCALE = 0.01
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_we1lb"]
+material = SubResource("ShaderMaterial_a2qnu")
+size = Vector2(4, 3)
+subdivide_width = 32
+subdivide_depth = 32
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1k1au"]
+render_priority = 0
+shader = ExtResource("1_whdvc")
+shader_parameter/SEED = Vector3(22, 33, 44)
+shader_parameter/OFFSET = Vector2(0, 0)
+shader_parameter/NEXT = false
+shader_parameter/SCALE = 0.002
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_axecj"]
+material = SubResource("ShaderMaterial_1k1au")
+size = Vector2(0.6, 0.6)
+subdivide_width = 32
+subdivide_depth = 32
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wganh"]
+transparency = 1
+albedo_color = Color(0.330637, 0.446627, 0.435825, 0.670588)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_y3wke"]
+material = SubResource("StandardMaterial3D_wganh")
+size = Vector2(3.53, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3e2xg"]
+size = Vector3(0.55368, 0.0233409, 1)
+
+[node name="Sup" type="Node3D"]
+script = ExtResource("1_xkks2")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.62344)
+stream = ExtResource("2_e8pkm")
+volume_db = -63.614
+max_db = -11.651
+autoplay = true
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.62344)
+
+[node name="Background" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -0.00690818)
+mesh = SubResource("PlaneMesh_we1lb")
+
+[node name="OmniLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.593865, 0.614299, -0.519578, -0.462328, 0.789073, 0.404495, 0.658466, 0, 0.75261, -1.24386, 0.57425, 1.77668)
+light_color = Color(0.847762, 0.514455, 0.712404, 1)
+light_energy = 0.2
+light_indirect_energy = 0.11
+
+[node name="Node3D" type="Node3D" parent="."]
+transform = Transform3D(0.109585, 0, -0.762162, 0, 0.77, 0, 0.762162, 0, 0.109585, 0.579666, -0.360951, 0.837169)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Node3D"]
+transform = Transform3D(1.13636, 0, -5.96046e-08, 0, 1.13636, 0, 4.47035e-08, 0, 1.13636, 0.138361, 0.729499, 0.0198938)
+
+[node name="Node3D" type="Node3D" parent="Node3D"]
+
+[node name="mixamo-added-on-fun" parent="Node3D/Node3D" instance=ExtResource("4_dhvcg")]
+
+[node name="Ground" type="MeshInstance3D" parent="Node3D/Node3D"]
+mesh = SubResource("PlaneMesh_axecj")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.682555)
+mesh = SubResource("PlaneMesh_y3wke")
+
+[node name="Start" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.628215, 0.158298, 0.898901)
+
+[node name="Flopster" parent="Start" instance=ExtResource("5_er4a1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0553325, 0)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Start"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0273535, 0, 0.177406)
+light_color = Color(0.937528, 0.975228, 0.931846, 1)
+
+[node name="Labels" type="Node3D" parent="Start"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.412564, 0, -0.0173327)
+
+[node name="Enter" type="Label3D" parent="Start/Labels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0965671, -0.307554, -0.136464)
+modulate = Color(0.752631, 0, 0.306066, 1)
+text = "<ENTER>"
+horizontal_alignment = 0
+
+[node name="Area3D" type="Area3D" parent="Start/Labels/Enter"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.465911, 0.0765176, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Start/Labels/Enter/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.012207, 0.00479126, 0)
+shape = SubResource("BoxShape3D_3e2xg")
+
+[node name="Escape" type="Label3D" parent="Start/Labels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0965671, -0.479631, -0.136464)
+modulate = Color(1.97336e-06, 0.779254, 0.421199, 1)
+text = "<ESC>"
+horizontal_alignment = 0
+
+[node name="Area3D" type="Area3D" parent="Start/Labels/Escape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.216018, 0.031951, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Start/Labels/Escape/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.118347, -0.00924158, 0)
+shape = SubResource("BoxShape3D_3e2xg")
+
+[node name="Information" type="Label3D" parent="Start/Labels"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0965671, -0.668781, -0.136464)
+text = ">MAN<
+"
+horizontal_alignment = 0
+
+[node name="Area3D" type="Area3D" parent="Start/Labels/Information"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.302221, -0.0242144, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Start/Labels/Information/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0623012, 0.0478336, 0)
+shape = SubResource("BoxShape3D_3e2xg")
+
+[connection signal="finished" from="AudioStreamPlayer3D" to="." method="_on_audio_stream_player_3d_finished"]

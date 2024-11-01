@@ -3,6 +3,7 @@ shader_type spatial;
 uniform vec3 SEED = vec3(22., 33., 44.);
 uniform vec2 OFFSET = vec2(.0);
 uniform bool NEXT = false;
+uniform float SCALE = 1.;
 
 // can't seem to make this work...
 #define RAW_WORLD_
@@ -12,6 +13,7 @@ varying vec3 OG_VERTEX;
 #endif
 
 varying float IS_BUILDING;
+varying vec3 norman;
 
 const float GRID = 16. * .5;
 const float FUDGE = .009;
@@ -23,7 +25,7 @@ const float BUILDING_LO = 5.5   * 2.2;
 const float BUILDING_HI = 31.13 * 2.2;
 const float BUILDING_STEPS = 7.;
 
-const float LZ_BARE = .22; 
+const float LZ_BARE = .22;
 
 const vec3 UP    = vec3(.0, .0, 1.); // blue
 const vec3 NORTH = vec3(.0, 1., .0); // green
@@ -40,7 +42,7 @@ float step_up(float f) {
 }
 
 float getGrid() {
-	return GRID; 
+	return GRID;
 	// won't work...
 	vec2 h = hash(OFFSET);
 	float g = .5 * h.x  + .5;
@@ -146,15 +148,16 @@ vec3 wall_color(in vec2 uv, in vec3 p, in vec3 n) {
 #endif
 	st += TIME * .003300;
 
+	vec3 color = abs(norman);
+	color.r = step(color.r, max(color.g, color.b));
+
 	st = fract(st);
-	return step_up(st.x) * step_up(st.y) * vec3(.9);
+	return step_up(st.x) * step_up(st.y) * color;//vec3(.9);
 }
 
 vec3 fragment_playing(in vec2 uv , in vec3 p, in vec3 n) {
-	float l = goMax(uv); // works better than using IS_BUILDING
+	float l = step(IS_BUILDING, .99) * step(.01, IS_BUILDING);
 
-	// not happy with this: l = BUILDING;
-	l = mix(l, IS_BUILDING, .33);	 
 
 	vec3 color = mix(ground_color(uv), wall_color(uv, p, n), l);
 	vec2 quirk = abs(hash(floor(99. * uv + TIME * 4.4)));
@@ -185,7 +188,7 @@ void fragment() {
 	p = OG_VERTEX;
 #endif
 	ALBEDO.rgb = NEXT ? fragment_next(uv, p, NORMAL) : fragment_playing(uv, p, NORMAL);
-	
+
 	////uv = step(.9, fract(uv *33.));
 	//ALBEDO.rgb = vec3(uv.x * uv.y);
 }
@@ -207,7 +210,8 @@ void vertex() {
 
 	vec2 quirk = abs(hash(floor(uv * getGrid() * .77)));
 	float m = floor(quirk.x * BUILDING_STEPS) / BUILDING_STEPS;
-	
-	VERTEX.y = building * mix(BUILDING_LO, BUILDING_HI, m) * 1.03;
+
+	VERTEX.y = building * mix(BUILDING_LO, BUILDING_HI, m) * 1.03 * SCALE;
 	NORMAL = normalize(map_normal(uv));
+	norman = NORMAL;
 }

@@ -136,7 +136,6 @@ func _level_up() -> void:
 	var text = ""
 	collected = 0
 	goal = goal * 2
-	goal = 1
 	
 	if level >= len(BITS):
 		wanna.visible = false

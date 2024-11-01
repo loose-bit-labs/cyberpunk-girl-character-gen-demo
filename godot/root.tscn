@@ -40,6 +40,7 @@ shader = ExtResource("1_o5e0h")
 shader_parameter/SEED = Vector3(22, 33, 44)
 shader_parameter/OFFSET = Vector2(0, 0)
 shader_parameter/NEXT = false
+shader_parameter/SCALE = 1.0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_l77kq"]
 size = Vector3(222.009, 0.01, 222.032)
@@ -287,7 +288,7 @@ light_color = Color(0.667415, 0.416634, 0.794613, 1)
 light_energy = 2.0
 
 [node name="Flopster" parent="Player/Camera/DirectionalLight3D" instance=ExtResource("9_x8brx")]
-transform = Transform3D(-1, 1.8727e-08, 1.46885e-07, -1.58231e-08, 0.972776, -0.231748, -1.47226e-07, -0.231748, -0.972776, 1.39374, 0.250345, -0.627132)
+transform = Transform3D(-1, 1.87274e-08, 1.46885e-07, -1.58227e-08, 0.972776, -0.231748, -1.47226e-07, -0.231748, -0.972776, 1.39374, 0.250345, -0.627132)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Player"]
 
@@ -334,7 +335,6 @@ theme_override_constants/margin_bottom = 7
 layout_mode = 2
 
 [node name="Label" type="Label" parent="Status/Control/MarginContainer/VBoxContainer"]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 0
 text = "SOLDIER, DATA NEEDED!"

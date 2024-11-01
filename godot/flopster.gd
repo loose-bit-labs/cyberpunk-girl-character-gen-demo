@@ -6,10 +6,18 @@ extends Node3D
 @onready var hitbox = $HitBox
 @onready var light = $OmniLight3D
 
+var icons 
+
 var fodder = null
 var tmi = null
 var current = null
 var quiet = false
+
+
+func _ready() -> void:
+	icons = []
+	for kid in models.get_children():
+		icons.push_back(kid.name)
 
 func luke(f) -> void:
 	fodder = f
