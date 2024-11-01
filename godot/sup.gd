@@ -3,18 +3,21 @@ extends Node3D
 var root_scene = "res://root.tscn"
 
 @onready var background = $Background
-@onready var chique = $"Node3D/Node3D/mixamo-added-on-fun/AnimationPlayer"
+@onready var chique = $"Node3D/Node3D/toon/AnimationPlayer"
 @onready var boxo = $"Node3D/Node3D"
 @onready var ground = $Node3D/Node3D/Ground
 @onready var flopster = $Start/Flopster
 @onready var audio = $AudioStreamPlayer3D
 @onready var camera = $Camera3D
 @onready var labels = $Start/Labels
+@onready var title = $Title
 
 var last_label:Label3D = null
+var start_time : float = .0
+var last_second : int = 0
+
 var OFFSET = Vector2(.0,.0)
 var GO = Vector2(.0,.0)
-
 const BLACK = Color(.0,.0,.0)
 const WHITE = Color(1.,1.,1.)
 
@@ -23,15 +26,24 @@ func _ready() -> void:
 	var s = .22
 	flopster.scale = Vector3(s,s,s)
 	flopster.light.visible = false
+	start_time = now();
 	chique.play("running")
+
+func now() -> float:
+	return Time.get_unix_time_from_system()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	chique.play("running")
 	background.get_active_material(0).set_shader_parameter("OFFSET", OFFSET)
 	
-	var elapsed = Time.get_unix_time_from_system()
+	var elapsed = now()
 	var sex = int(elapsed)
+	var tex = int(elapsed * 6.)
+	
+	if elapsed - start_time > 3. and  tex != last_second:
+		title.text = title.text.substr(1) + title.text[0]
+		last_second = tex
 	
 	var f = .000300
 	if sex % 2:

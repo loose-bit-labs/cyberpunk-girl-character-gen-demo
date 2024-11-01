@@ -3,11 +3,11 @@
 [ext_resource type="Script" path="res://player.gd" id="1_2rirp"]
 [ext_resource type="Script" path="res://root.gd" id="1_hi1p5"]
 [ext_resource type="Shader" path="res://floor.gdshader" id="1_o5e0h"]
-[ext_resource type="PackedScene" uid="uid://bnprli1xpvc73" path="res://cybergirl-model.tscn" id="2_0wbm8"]
 [ext_resource type="Texture2D" uid="uid://bkn613fyw7dx2" path="res://hdri-comfyUI_00003_.png" id="2_wtw7c"]
 [ext_resource type="Shader" path="res://lobby.gdshader" id="4_2y5tm"]
 [ext_resource type="Texture2D" uid="uid://cihmvi6h5eqmb" path="res://lbl-nuts-and-bolts.png" id="5_ukvl5"]
 [ext_resource type="AudioStream" uid="uid://do6yvp1mio7aa" path="res://melodic-techno-03-extended-version-moogify-9867.mp3" id="6_384bk"]
+[ext_resource type="PackedScene" uid="uid://b1860idmdbhjk" path="res://assassin_v_2.tscn" id="7_xvp0x"]
 [ext_resource type="PackedScene" uid="uid://cokrj6e5xo4el" path="res://flopster.tscn" id="9_x8brx"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_rqdow"]
@@ -267,13 +267,13 @@ script = ExtResource("1_2rirp")
 
 [node name="Pivot" type="Node3D" parent="Player"]
 
-[node name="toon" parent="Player/Pivot" instance=ExtResource("2_0wbm8")]
-
 [node name="CSGCylinder3D" type="CSGCylinder3D" parent="Player/Pivot"]
 radius = 0.196741
 height = 0.00803271
 sides = 16
 material = SubResource("StandardMaterial3D_c0yyi")
+
+[node name="toon" parent="Player/Pivot" instance=ExtResource("7_xvp0x")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.52538, -0.0769311)
@@ -288,7 +288,7 @@ light_color = Color(0.667415, 0.416634, 0.794613, 1)
 light_energy = 2.0
 
 [node name="Flopster" parent="Player/Camera/DirectionalLight3D" instance=ExtResource("9_x8brx")]
-transform = Transform3D(-1, 1.87274e-08, 1.46885e-07, -1.58227e-08, 0.972776, -0.231748, -1.47226e-07, -0.231748, -0.972776, 1.39374, 0.250345, -0.627132)
+transform = Transform3D(-1, 1.87275e-08, 1.46885e-07, -1.58227e-08, 0.972776, -0.231748, -1.47226e-07, -0.231748, -0.972776, 1.39374, 0.250345, -0.627132)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Player"]
 

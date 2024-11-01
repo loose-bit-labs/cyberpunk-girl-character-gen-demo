@@ -1,10 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://dwlsot771xws"]
+[gd_scene load_steps=22 format=3 uid="uid://dwlsot771xws"]
 
 [ext_resource type="Shader" path="res://floor.gdshader" id="1_whdvc"]
 [ext_resource type="Script" path="res://sup.gd" id="1_xkks2"]
 [ext_resource type="AudioStream" uid="uid://bquiy87cid00w" path="res://background-loop-melodic-techno-01-2490.mp3" id="2_e8pkm"]
-[ext_resource type="PackedScene" uid="uid://bnprli1xpvc73" path="res://cybergirl-model.tscn" id="4_dhvcg"]
 [ext_resource type="PackedScene" uid="uid://cokrj6e5xo4el" path="res://flopster.tscn" id="5_er4a1"]
+[ext_resource type="PackedScene" uid="uid://dbee83h4pc4pq" path="res://assassin-v2.glb" id="5_hrn03"]
+[ext_resource type="FontFile" uid="uid://bolld7mc112wv" path="res://UbuntuMono-Regular.ttf" id="6_paqmh"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_a2qnu"]
 render_priority = 0
@@ -45,6 +46,90 @@ size = Vector2(3.53, 2)
 [sub_resource type="BoxShape3D" id="BoxShape3D_3e2xg"]
 size = Vector3(0.55368, 0.0233409, 1)
 
+[sub_resource type="Animation" id="Animation_cod3v"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_gi1t2"]
+resource_name = "spin"
+length = 4.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2.03333, 3, 4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(1.5708, 0, 0), Vector3(3.14159, 0, 0), Vector3(4.71239, 0, 0), Vector3(6.28319, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ob4ct"]
+_data = {
+"RESET": SubResource("Animation_cod3v"),
+"spin": SubResource("Animation_gi1t2")
+}
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y03fv"]
+albedo_color = Color(0.0295066, 0.0295066, 0.0295066, 1)
+roughness = 0.05
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_igo12"]
+material = SubResource("StandardMaterial3D_y03fv")
+size = Vector2(0.45, 0.7)
+
+[sub_resource type="Animation" id="Animation_slbv3"]
+resource_name = "blink"
+length = 1.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.633333, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [true, true, true, false]
+}
+
+[sub_resource type="Animation" id="Animation_hsvtu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gdeo6"]
+_data = {
+"RESET": SubResource("Animation_hsvtu"),
+"blink": SubResource("Animation_slbv3")
+}
+
 [node name="Sup" type="Node3D"]
 script = ExtResource("1_xkks2")
 
@@ -76,14 +161,15 @@ transform = Transform3D(1.13636, 0, -5.96046e-08, 0, 1.13636, 0, 4.47035e-08, 0,
 
 [node name="Node3D" type="Node3D" parent="Node3D"]
 
-[node name="mixamo-added-on-fun" parent="Node3D/Node3D" instance=ExtResource("4_dhvcg")]
-
 [node name="Ground" type="MeshInstance3D" parent="Node3D/Node3D"]
 mesh = SubResource("PlaneMesh_axecj")
 skeleton = NodePath("../..")
 
+[node name="toon" parent="Node3D/Node3D" instance=ExtResource("5_hrn03")]
+
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.682555)
+visible = false
 mesh = SubResource("PlaneMesh_y3wke")
 
 [node name="Start" type="Node3D" parent="."]
@@ -137,5 +223,96 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.302221, -0.0242144, 0)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Start/Labels/Information/Area3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0623012, 0.0478336, 0)
 shape = SubResource("BoxShape3D_3e2xg")
+
+[node name="Title" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0956191, 0.575392, 0.728243)
+modulate = Color(0.540034, 0.54321, 0.844977, 1)
+text = "Cyber City Run ⬅ "
+
+[node name="Reboot" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.390218, 0.343847, 0.812982)
+modulate = Color(0.901139, 0, 0.290177, 1)
+outline_modulate = Color(0.180472, 0.0637717, 0.188565, 1)
+text = "Reboot Required!"
+font_size = 18
+outline_size = 4
+horizontal_alignment = 0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Reboot"]
+libraries = {
+"": SubResource("AnimationLibrary_ob4ct")
+}
+autoplay = "spin"
+
+[node name="Screeno" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.09, -0.137, 0.881)
+
+[node name="Screen" type="MeshInstance3D" parent="Screeno"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.0030458, -0.0101012, 0)
+mesh = SubResource("PlaneMesh_igo12")
+
+[node name="Intro" type="Label3D" parent="Screeno"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.212126, 0.319832, 0.000162959)
+pixel_size = 0.002
+modulate = Color(0.293731, 0.739896, 0.484032, 1)
+text = "$ cat README.txt
+-------------------------------
+USER INPUT SPECIFICATION Version 1.0
+-------------------------------
+
+PREAMBLE
+System status hacked^H^H^H^H^H^H
+compromised. User input required.
+
+Save mission critical data before
+^@^@^A^@^B^F^C^@^@^D^E^H^@^G^F^@^@
+^@^A^@^@^@^@^\\u1f4a3💣
+
+TERMINATION
+Avatar status becomes null and 
+void if any of the above conditions
+are not met.
+
+DISCLAIMER
+THE SYSTEM AVAILABILITY IS PROVIDED
+\"AS IS\", WITHOUT WARRANTY OF ANY 
+KIND, EXPRESSED OR IMPLIED 
+
+"
+font = ExtResource("6_paqmh")
+font_size = 12
+outline_size = 2
+horizontal_alignment = 0
+vertical_alignment = 0
+
+[node name="Promt" type="Label3D" parent="Screeno"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.212126, -0.259046, 0.000162959)
+pixel_size = 0.002
+modulate = Color(0.293731, 0.739896, 0.484032, 1)
+text = "$ find / -type hero
+No such file or directory
+$ "
+font = ExtResource("6_paqmh")
+font_size = 12
+outline_size = 2
+horizontal_alignment = 0
+vertical_alignment = 0
+
+[node name="Cursor" type="Label3D" parent="Screeno"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.193477, -0.313437, 0.000162959)
+pixel_size = 0.002
+modulate = Color(0.293731, 0.739896, 0.484032, 1)
+text = "_"
+font = ExtResource("6_paqmh")
+font_size = 12
+outline_size = 2
+horizontal_alignment = 0
+vertical_alignment = 0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Screeno/Cursor"]
+libraries = {
+"": SubResource("AnimationLibrary_gdeo6")
+}
+autoplay = "blink"
 
 [connection signal="finished" from="AudioStreamPlayer3D" to="." method="_on_audio_stream_player_3d_finished"]
