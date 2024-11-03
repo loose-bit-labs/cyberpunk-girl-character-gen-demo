@@ -14,7 +14,7 @@ void fragment() {
 
 	// green is darker on top and bottom
 	float green_bars = fract(UV.y * 11. - .2); // how many green lines and offset
-	vec3 green = vec3(.5,1.,.5) * (.6 + .4 * step(.01610, green_bars) * step(green_bars, .484));
+	vec3 green = vec3(.5,1.,.5) * (.6 + .4 * step(.01610, green_bars) * step(green_bars, .484)) * 1.2;
 	ALBEDO.rgb = mix(white, green, step(green_bars, .5) * step(.02,UV.x) * step(UV.x, .98));
 
 	float hole_count = 32., hole_radius = .015;

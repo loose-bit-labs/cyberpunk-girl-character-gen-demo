@@ -8,6 +8,7 @@ const SNAPPER = 88.88
 var flopster_scene = preload("res://flopster.tscn")
 
 @onready var audio = $Player/Audio
+@onready var modem = $Player/Camera/Modem
 @onready var ground = $Floor
 @onready var floppin = $Floppin
 @onready var player = $Player
@@ -26,6 +27,7 @@ var OFFSET = Vector2(.0, .0)
 func _ready() -> void:
 	new_game()
 	_floppyHacky()
+	_modemHackem()
 
 # make the what ur collecting guy not be interactable
 func _floppyHacky() -> void:
@@ -34,6 +36,10 @@ func _floppyHacky() -> void:
 	statusFlopster.scale = Vector3(s, s, s)
 	statusFlopster.animationPlayer.play("spin")
 	statusFlopster.light.visible = false
+
+# really dunno why this should be needed keeps loosing the stream... :-/
+func _modemHackem():
+	modem.set_stream(UtilMe.load_mp3("res://shorter-the-sound-of-dial-up-internet-6240.mp3"))
 
 # let's get it goin' on, ya'll!
 func new_game() -> void:
@@ -64,8 +70,8 @@ func _process(_delta: float) -> void:
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_mute"):
 		UtilMe.toggle_mute()
-	if event.is_action_pressed("ui_accept"):
-		_seedling()
+	if not event.alt_pressed and event.is_action_pressed("ui_accept"):
+		modem.play()
 
 # change the world seed
 func _seedling() -> void:
@@ -108,7 +114,7 @@ func _go_away_now() -> void:
 	var children = floppin.get_children()
 	for child in children:
 		child.luke(null)
-		(func(): floppin.remove_child(child);child.muteeue_free()).call_deferred()
+		(func(): floppin.remove_child(child);child.queue_free()).call_deferred()
 
 #  move the goodies
 func _sway_with_me(update:Vector2) -> void:
@@ -124,7 +130,7 @@ func bye(_flopster):
 	if collected == goal:
 		_level_up()
 	else:
-		label.text = "%s, %d %s out of %d" % [RANKS[level], collected, BITS[level], goal]
+		label.text = "%s, %d x %s out of %d" % [RANKS[level], collected, BITS[level], goal]
 		var needed = goal - collected
 		wanna.text = 'x %d' % needed
 
@@ -143,6 +149,7 @@ func _level_up() -> void:
 		text = "THANKS FOR THE DATA SUCKER! ENJOY YOUR TIME IN PURGATORY!"
 	else:
 		text = "DROP AND GIMME %d x %s, %s" % [goal, BITS[level], RANKS[level]]
+		modem.play()
 	
 	_next_level(text, goal)
 
@@ -169,3 +176,6 @@ func _rand(f:float)-> float:
 
 func _on_audio_finished() -> void:
 	audio.play();
+
+func _on_modem_finished() -> void:
+	_seedling()

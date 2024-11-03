@@ -85,7 +85,7 @@ func _input(event) -> void:
 		return
 		
 	var accept = event.is_action_pressed("ui_accept")
-	var renounce = event.is_action_pressed("ui_renounce")
+	var renounce = event.is_action_pressed("ui_renounce") or event.is_action_pressed("ui_quit")
 	var mouse_press = event is InputEventMouseButton and event.pressed 
 		
 	if man.visible:

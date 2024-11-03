@@ -6,13 +6,18 @@ var camera : Camera3D
 func _ready() -> void:
 	camera = get_parent()
 	
-func _input(_event):
+func _input(_event) -> void:
+	if Input.is_action_just_pressed("ui_quit"):
+		return quitter()
 	if Input.is_action_just_pressed("ui_cancel") or Input.is_action_just_pressed("ui_pause"):
 		toggle_pause()
 	if get_tree().paused and Input.is_action_just_pressed("ui_accept"):
-		unpause()
-		UtilMe.release_mouse()
-		get_tree().change_scene_to_file(sup_scene)
+		quitter()
+
+func quitter() -> void:
+	unpause()
+	UtilMe.release_mouse()
+	get_tree().change_scene_to_file(sup_scene)
 
 func toggle_pause() -> bool:
 	var paused = !get_tree().paused
@@ -27,7 +32,7 @@ func pause() -> bool:
 	show()
 	UtilMe.release_mouse()
 	camera.global_rotation.y = deg_to_rad(90)
-	camera.global_position.y = 9.9
+	camera.global_position.y = 93.39
 	return true
 
 func unpause() -> bool:

@@ -64,6 +64,15 @@ func set_mute(value, bus_idx:int = -99, which = MAIN_AUDIO_BUS) -> bool:
 func is_muted():
 	return get_mute()
 
+
+#################################################################################################
+
+func load_mp3(path):
+	var file = FileAccess.open(path, FileAccess.READ)
+	var sound = AudioStreamMP3.new()
+	sound.data = file.get_buffer(file.get_length())
+	return sound
+
 #################################################################################################
 
 # c/p from our scaletris project
