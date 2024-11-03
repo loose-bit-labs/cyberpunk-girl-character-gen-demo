@@ -11,6 +11,7 @@ var root_scene = "res://root.tscn"
 @onready var camera = $Camera3D
 @onready var labels = $Start/Labels
 @onready var title = $Title
+@onready var man = $Man
 
 var last_label:Label3D = null
 var start_time : float = .0
@@ -33,7 +34,7 @@ func now() -> float:
 	return Time.get_unix_time_from_system()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	chique.play("running")
 	background.get_active_material(0).set_shader_parameter("OFFSET", OFFSET)
 	
@@ -64,10 +65,10 @@ func start_game() -> void:
 
 func end_game() -> void:
 	# TODO prompt
-	get_tree().quit() 
+	UtilMe.quit()
 
 func show_info() -> void:
-	pass
+	man.visible = true
 
 func _on_audio_stream_player_3d_finished() -> void:
 	audio.play()
@@ -77,25 +78,33 @@ func _on_audio_stream_player_3d_finished() -> void:
 
 func _input(event) -> void:
 	if Input.is_action_just_pressed("ui_fullscreen"):
-		return toggle_fullscreen()
-	if event.is_action_pressed("ui_accept"):
+		return UtilMe.toggle_fullscreen()
+		
+	if event.is_action_pressed("ui_mute"):
+		UtilMe.toggle_mute()
+		return
+		
+	var accept = event.is_action_pressed("ui_accept")
+	var renounce = event.is_action_pressed("ui_renounce")
+	var mouse_press = event is InputEventMouseButton and event.pressed 
+		
+	if man.visible:
+		if accept or renounce or mouse_press:
+			man.visible = false
+		return
+
+	if accept:
 		start_game()
-	if event.is_action_pressed("ui_renounce"):
+	if renounce:
 		end_game()
 	
 	if event is InputEventMouseMotion:
 		mouse_move(event)
-	if event is InputEventMouseButton and event.pressed:
+	if mouse_press:
 		mouse_click(event)
-		
-func toggle_fullscreen() -> void:
-	if DisplayServer.WINDOW_MODE_FULLSCREEN == DisplayServer.window_get_mode():
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-	else:
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 
-func mouse_move(event):		
-	var under = camera_mouse(labels, camera)
+func mouse_move(_event):	
+	var under = UtilMe.camera_mouse(labels, camera)
 	if not under:
 		if last_label:
 			last_label.outline_modulate = BLACK
@@ -115,7 +124,7 @@ func mouse_move(event):
 	last_label = label
 	label.outline_modulate = WHITE
 
-func mouse_click(event) -> void:
+func mouse_click(_event) -> void:
 	if not last_label:
 		return
 	if "Enter" == last_label.name:
@@ -124,18 +133,3 @@ func mouse_click(event) -> void:
 		return end_game()
 	if "Information" == last_label.name:
 		return show_info()
-
-# c/p from our scaletris project
-func camera_mouse(context:Node3D, camera:Camera3D, exclude = [], rayLength:float=1000) -> Node3D:
-	var space_state = context.get_world_3d().direct_space_state
-	var mousepos = context.get_viewport().get_mouse_position()
-	var origin = camera.project_ray_origin(mousepos)
-	var end = origin + camera.project_ray_normal(mousepos) * rayLength
-	var query = PhysicsRayQueryParameters3D.create(origin, end)
-	query.collide_with_areas = true
-	query.exclude = exclude
-
-	var result = space_state.intersect_ray(query)
-	if !result or not "collider" in result: 
-		return null
-	return result.collider

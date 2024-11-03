@@ -63,10 +63,9 @@ func _process(_delta: float) -> void:
 # handle input
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_mute"):
-		audio.playing = !audio.playing
+		UtilMe.toggle_mute()
 	if event.is_action_pressed("ui_accept"):
 		_seedling()
-		#animationPlayer.play("start_game")
 
 # change the world seed
 func _seedling() -> void:
@@ -109,7 +108,7 @@ func _go_away_now() -> void:
 	var children = floppin.get_children()
 	for child in children:
 		child.luke(null)
-		(func(): floppin.remove_child(child);child.queue_free()).call_deferred()
+		(func(): floppin.remove_child(child);child.muteeue_free()).call_deferred()
 
 #  move the goodies
 func _sway_with_me(update:Vector2) -> void:

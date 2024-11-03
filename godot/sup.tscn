@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dwlsot771xws"]
+[gd_scene load_steps=25 format=3 uid="uid://dwlsot771xws"]
 
 [ext_resource type="Shader" path="res://floor.gdshader" id="1_whdvc"]
 [ext_resource type="Script" path="res://sup.gd" id="1_xkks2"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cokrj6e5xo4el" path="res://flopster.tscn" id="5_er4a1"]
 [ext_resource type="PackedScene" uid="uid://dbee83h4pc4pq" path="res://assassin-v2.glb" id="5_hrn03"]
 [ext_resource type="FontFile" uid="uid://bolld7mc112wv" path="res://UbuntuMono-Regular.ttf" id="6_paqmh"]
+[ext_resource type="Shader" path="res://green-bar.gdshader" id="7_hqdg7"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_a2qnu"]
 render_priority = 0
@@ -92,6 +93,21 @@ roughness = 0.05
 material = SubResource("StandardMaterial3D_y03fv")
 size = Vector2(0.45, 0.7)
 
+[sub_resource type="Animation" id="Animation_hsvtu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
 [sub_resource type="Animation" id="Animation_slbv3"]
 resource_name = "blink"
 length = 1.2
@@ -109,26 +125,19 @@ tracks/0/keys = {
 "values": [true, true, true, false]
 }
 
-[sub_resource type="Animation" id="Animation_hsvtu"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_gdeo6"]
 _data = {
 "RESET": SubResource("Animation_hsvtu"),
 "blink": SubResource("Animation_slbv3")
 }
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vfies"]
+render_priority = 0
+shader = ExtResource("7_hqdg7")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_2sbsg"]
+material = SubResource("ShaderMaterial_vfies")
+size = Vector2(1, 0.7)
 
 [node name="Sup" type="Node3D"]
 script = ExtResource("1_xkks2")
@@ -314,5 +323,61 @@ libraries = {
 "": SubResource("AnimationLibrary_gdeo6")
 }
 autoplay = "blink"
+
+[node name="Man" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.1168)
+visible = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Man"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("PlaneMesh_2sbsg")
+
+[node name="Palather" type="Label3D" parent="Man"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.465602, 0.331211, 0.00664306)
+pixel_size = 0.001
+modulate = Color(0, 0, 0, 1)
+text = "CYBER CITY RUN(1)                                  User Commands                                CYBER CITY RUN(1)
+
+NAME
+       cyber-city-run - collect system critical data pending reboot
+
+SYNOPSIS
+       cyber-city-run  -hv|-bcEeHiOSs1 -d secs -n max -u|U user -p pids -o field -w [cols]
+
+       The traditional switches `-' and whitespace are optional.
+
+DESCRIPTION
+       The user  controls their avatar  with a dynamic  real-time view of the running system. The avatar can be dir-
+       ected via the WASD keys or ARROW keys in combination with \"mouse look\" to navigate a virtual system abstract-
+       ion layer known as \"CYBER CITY\". OPTIONAL: SHIFT key acceleration, \"m\" for \"MUTE\", and \"ALT-ENTER\" fullscreen 
+
+       The abstraction provides  a limited interactive  interface for data collection  and  manipulatory operations.
+       The  extended   physical  metaphoric  interface  displays system  summary  information as well  as a familiar
+       mapping  to  \"real world\" construction.   Though encompassing  possible physical models  the mapping  remains
+       imperfect. Notably, vertically  aligned surfaces provide only a surface level tangibility lacking solidity.
+
+       The  cyber-city-run   program  represents  a data retrieval of  final resolution in the (unlikely) event of a
+       data breach. The consciousness  of the user  is leveraged via avatistic  representation   to enable  critical
+       archival operational facilities on an \"as needed basis\", memoriamatizationally speaking. 
+
+       Pragmatically  the simulation  expands with  infinite  vastness. Advanced system  access granted  pending layer
+       data typing as managed by the  system  kernel.   The types  of  system  summary  information  shown  and the 
+       types, order and size of information displayed for processes are all user manipulable and as such acquisition
+       will be made persistent across reboots.
+
+       This  program  is  provided by  Loose Bit Labs.  Textures  are  custom   shader   based  excluding the avatar.
+       Shout  out  to  jarble  on  shadertoy  for inspiring part  of the floor shader (WljcRG). Character  animation
+       via   mixamo, modelling  and texturing  by YT & Blender.  CYBER CITY RUN is  written  using Godot. Music via
+       Zen_Man (https://pixabay.com/users/zen_man-4257870): 
+       -        https://pixabay.com/music/techno-trance-melodic-techno-03-extended-version-moogify-9867/
+       -        https://pixabay.com/music/techno-trance-background-loop-melodic-techno-01-2490/
+	      The  program  provides a  limited  interactive interface  for data retrieval simulated experientials for most 
+       1337 HA><><ORZ of all ages, ethnicities, creeds, genders, political affiliations, phsyical, mental, and moral 
+       competencies or so you might well imagine though no such warranty is implied as far as you know.
+<EOF>"
+font = ExtResource("6_paqmh")
+font_size = 16
+horizontal_alignment = 0
+vertical_alignment = 0
 
 [connection signal="finished" from="AudioStreamPlayer3D" to="." method="_on_audio_stream_player_3d_finished"]

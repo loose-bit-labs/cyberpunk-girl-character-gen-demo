@@ -5,8 +5,6 @@ const SPRINT = 8.8 * .01 # sprint speed increment
 const LIMIT  = 13        # fastest to run
 const JUMP_VELOCITY = 4.4
 
-var sup_scene = "res://sup.tscn" # kind of a weird place for this tbh
-
 # Camera Control variables
 @export var camera_distance: float = 2.2
 @export var camera_speed: float = 0.005
@@ -27,7 +25,7 @@ var camera_rotation: Vector2 = Vector2.ZERO
 @onready var toon = $"Pivot/toon"
 
 func _ready() -> void:
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	UtilMe.grab_mouse()
 
 func dropper() -> void:
 	position.y = -too_low
@@ -93,16 +91,8 @@ func _move(input_dir, direction):
 		toon.rotation.y = camera_rotation.y
 
 func _input(event):
-	if Input.is_action_just_pressed("ui_cancel"):
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		#get_tree().quit()
-		get_tree().change_scene_to_file(sup_scene)
-	
 	if Input.is_action_just_pressed("ui_fullscreen"):
-		if DisplayServer.WINDOW_MODE_FULLSCREEN == DisplayServer.window_get_mode():
-			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-		else:
-			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+		UtilMe.toggle_fullscreen()
 	
 	# Mouse motion to rotate the camera
 	if event is InputEventMouseMotion: # and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
