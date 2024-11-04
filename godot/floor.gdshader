@@ -2,8 +2,11 @@ shader_type spatial;
 
 uniform vec3 SEED = vec3(22., 33., 44.);
 uniform vec2 OFFSET = vec2(.0);
+uniform vec3 PLAYER = vec3(.0);
+uniform float PLAYER_SCALE = .01;
 uniform bool NEXT = false;
 uniform float SCALE = 1.;
+uniform bool MAP = false;
 
 varying float IS_BUILDING;
 varying vec3 norman;
@@ -146,26 +149,41 @@ vec3 fragment_playing(in vec2 uv , in vec3 p, in vec3 n) {
 	return color;
 }
 
-vec3 fragment_next(in vec2 uv, in vec3 p, in vec3 n) {
-	return vec3(1.) *  jarblish(uv * 2. + TIME * .01);
-	// float d =
-	vec4 hex = hexTile(uv * 222.);
-	vec2 id = hex.zw * 134.34 + TIME * .005;
-
-	vec2 quirk = abs(hash(id));
-	float on = step(.6, quirk.x); // step(.3, fract(hex.z* 134.34 + TIME * .3));
-	return vec3(.8,.3,.4)  * hex.y * 3. * on;
-	return p;
+vec2 map_player() {
+	return (PLAYER.xz * PLAYER_SCALE + .5);
 }
 
+vec3 fragment_map(in vec2 uv, in vec3 p, in vec3 n) {
+	float l = 1.-smoothstep(IS_BUILDING,.01, .03);
+	vec3 ground = vec3(.0);
+	vec3 wall = vec3(.8,.4,.7);
+
+	vec3 u = vec3(.3, 8.8, .4); // ???
+	vec2 player = map_player();
+	vec2 c = uv - player;
+	float r = step(dot(c,c), .0001);
+
+	return mix(mix(ground, wall, l), u, r);///(d,.0, .001));
+}
+
+vec3 fragment_next(in vec2 uv, in vec3 p, in vec3 n) {
+	return vec3(1.) *  jarblish(uv * 2. + TIME * .01);
+}
 vec2 nowUVme(vec2 uv) {
-	return uv.xy + OFFSET;// - .2;
+	float m = MAP ? .5 : 1.;
+	vec2 player = MAP ? map_player() : vec2(.0);
+	vec2 o = OFFSET + player;
+	return(uv.xy+o) * m;
+	return uv.xy * m + o;
 }
 
 void fragment() {
 	vec2 uv = nowUVme(UV);
 	vec3 p = VERTEX;
-	ALBEDO.rgb = NEXT ? fragment_next(uv, p, NORMAL) : fragment_playing(uv, p, NORMAL);
+	ALBEDO.rgb = (
+		MAP 	? fragment_map(uv, p, NORMAL)
+		: (NEXT ? fragment_next(uv, p, NORMAL) : fragment_playing(uv, p, NORMAL))
+	);
 }
 
 void vertex() {
@@ -173,10 +191,11 @@ void vertex() {
 	float building = goMin(uv);
 	IS_BUILDING = building;
 
-	vec2 quirk = abs(hash(floor(uv * GRID * .77)));
-	float m = floor(quirk.x * BUILDING_STEPS) / BUILDING_STEPS;
-
-	VERTEX.y = building * mix(BUILDING_LO, BUILDING_HI, m) * 1.03 * SCALE;
-	NORMAL = normalize(map_normal(uv));
+	if (!MAP) {
+		vec2 quirk = abs(hash(floor(uv * GRID * .77)));
+		float m = floor(quirk.x * BUILDING_STEPS) / BUILDING_STEPS;
+		VERTEX.y = building * mix(BUILDING_LO, BUILDING_HI, m) * 1.03 * SCALE;
+		NORMAL = normalize(map_normal(uv));
+	}
 	norman = NORMAL;
 }

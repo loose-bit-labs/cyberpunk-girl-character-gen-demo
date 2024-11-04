@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://cd6kyjw47l3cp"
 path.s3tc="res://.godot/imported/assassin-v2_immanual-texture_n.png-e0b640f6ec145f7803bb4bfbcbedb548.s3tc.ctex"
+path.etc2="res://.godot/imported/assassin-v2_immanual-texture_n.png-e0b640f6ec145f7803bb4bfbcbedb548.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://assassin-v2_immanual-texture_n.png"
-dest_files=["res://.godot/imported/assassin-v2_immanual-texture_n.png-e0b640f6ec145f7803bb4bfbcbedb548.s3tc.ctex"]
+dest_files=["res://.godot/imported/assassin-v2_immanual-texture_n.png-e0b640f6ec145f7803bb4bfbcbedb548.s3tc.ctex", "res://.godot/imported/assassin-v2_immanual-texture_n.png-e0b640f6ec145f7803bb4bfbcbedb548.etc2.ctex"]
 
 [params]
 

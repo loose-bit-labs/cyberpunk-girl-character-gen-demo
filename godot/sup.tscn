@@ -13,8 +13,11 @@ render_priority = 0
 shader = ExtResource("1_whdvc")
 shader_parameter/SEED = Vector3(22, 33, 44)
 shader_parameter/OFFSET = Vector2(0, 0)
+shader_parameter/PLAYER = Vector3(0, 0, 0)
+shader_parameter/PLAYER_SCALE = 0.01
 shader_parameter/NEXT = false
 shader_parameter/SCALE = 0.01
+shader_parameter/MAP = false
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_we1lb"]
 material = SubResource("ShaderMaterial_a2qnu")
@@ -27,8 +30,11 @@ render_priority = 0
 shader = ExtResource("1_whdvc")
 shader_parameter/SEED = Vector3(22, 33, 44)
 shader_parameter/OFFSET = Vector2(0, 0)
+shader_parameter/PLAYER = Vector3(0, 0, 0)
+shader_parameter/PLAYER_SCALE = 0.01
 shader_parameter/NEXT = false
 shader_parameter/SCALE = 0.002
+shader_parameter/MAP = false
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_axecj"]
 material = SubResource("ShaderMaterial_1k1au")

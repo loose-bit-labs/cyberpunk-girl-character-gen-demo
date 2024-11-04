@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://brmg85s1oyk6y"]
+[gd_scene load_steps=42 format=3 uid="uid://brmg85s1oyk6y"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_2rirp"]
 [ext_resource type="Script" path="res://root.gd" id="1_hi1p5"]
@@ -12,6 +12,7 @@
 [ext_resource type="Shader" path="res://green-bar.gdshader" id="9_ob4ei"]
 [ext_resource type="PackedScene" uid="uid://cokrj6e5xo4el" path="res://flopster.tscn" id="9_x8brx"]
 [ext_resource type="FontFile" uid="uid://bolld7mc112wv" path="res://UbuntuMono-Regular.ttf" id="10_mwj4g"]
+[ext_resource type="AudioStream" uid="uid://c5sbdkb4kgnk4" path="res://shorter-the-sound-of-dial-up-internet-6240.mp3" id="11_vdqkb"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_rqdow"]
 panorama = ExtResource("2_wtw7c")
@@ -42,8 +43,11 @@ render_priority = 0
 shader = ExtResource("1_o5e0h")
 shader_parameter/SEED = Vector3(22, 33, 44)
 shader_parameter/OFFSET = Vector2(0, 0)
+shader_parameter/PLAYER = Vector3(0, 0, 0)
+shader_parameter/PLAYER_SCALE = 0.01
 shader_parameter/NEXT = false
 shader_parameter/SCALE = 1.0
+shader_parameter/MAP = false
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_l77kq"]
 size = Vector3(222.009, 0.01, 222.032)
@@ -78,6 +82,61 @@ albedo_color = Color(0.338536, 0.27363, 0.278982, 0.443137)
 material = SubResource("StandardMaterial3D_7xcl8")
 size = Vector2(3, 2)
 center_offset = Vector3(0, 0.075, 0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0vy0k"]
+render_priority = 0
+shader = ExtResource("1_o5e0h")
+shader_parameter/SEED = Vector3(22, 33, 44)
+shader_parameter/OFFSET = Vector2(0, 0)
+shader_parameter/PLAYER = Vector3(0, 0, 0)
+shader_parameter/PLAYER_SCALE = 0.004
+shader_parameter/NEXT = false
+shader_parameter/SCALE = 0.0
+shader_parameter/MAP = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_m7ide"]
+material = SubResource("ShaderMaterial_0vy0k")
+size = Vector2(0.33, 0.33)
+subdivide_width = 16
+subdivide_depth = 16
+
+[sub_resource type="Animation" id="Animation_07nqm"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera/Map/Label3D:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_sadxq"]
+resource_name = "map_fail_blihnk"
+length = 1.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera/Map/Label3D:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.633333, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ms2yi"]
+_data = {
+"RESET": SubResource("Animation_07nqm"),
+"map_fail_blihnk": SubResource("Animation_sadxq")
+}
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ygrdt"]
 albedo_texture = ExtResource("5_ukvl5")
@@ -128,6 +187,9 @@ tracks/2/keys = {
 "update": 1,
 "values": [true]
 }
+
+[sub_resource type="Animation" id="Animation_l7bm2"]
+resource_name = "mapping_error"
 
 [sub_resource type="Animation" id="Animation_hgayi"]
 resource_name = "new_animation"
@@ -208,16 +270,16 @@ tracks/4/keys = {
 tracks/5/type = "audio"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Player/Camera/Modem")
+tracks/5/path = NodePath("Player/Camera/M2")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
 "clips": [{
 "end_offset": 0.0,
 "start_offset": 0.0,
-"stream": null
+"stream": ExtResource("11_vdqkb")
 }],
-"times": PackedFloat32Array(0)
+"times": PackedFloat32Array(0.0333333)
 }
 tracks/5/use_blend = true
 
@@ -264,11 +326,47 @@ tracks/1/keys = {
 "method": &"_shader_playing"
 }]
 }
+tracks/2/type = "audio"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Player/Camera/M2")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("11_vdqkb")
+}],
+"times": PackedFloat32Array(-0.0333333)
+}
+tracks/2/use_blend = true
+
+[sub_resource type="Animation" id="Animation_cgg3e"]
+resource_name = "play_modem"
+length = 4.0
+tracks/0/type = "audio"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Player/Camera/M2")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("11_vdqkb")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/0/use_blend = true
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_i1qv6"]
 _data = {
 "RESET": SubResource("Animation_r3dqn"),
+"mapping_error": SubResource("Animation_l7bm2"),
 "next_level": SubResource("Animation_hgayi"),
+"play_modem": SubResource("Animation_cgg3e"),
 "start_game": SubResource("Animation_tyn6g")
 }
 
@@ -319,7 +417,7 @@ light_color = Color(0.667415, 0.416634, 0.794613, 1)
 light_energy = 2.0
 
 [node name="Flopster" parent="Player/Camera/DirectionalLight3D" instance=ExtResource("9_x8brx")]
-transform = Transform3D(-1, 1.87275e-08, 1.46885e-07, -1.58226e-08, 0.972776, -0.231748, -1.47226e-07, -0.231748, -0.972776, 1.44595, 0.283623, -0.627132)
+transform = Transform3D(-1, 1.87277e-08, 1.46885e-07, -1.58224e-08, 0.972776, -0.231748, -1.47226e-07, -0.231748, -0.972776, 1.44595, 0.283623, -0.627132)
 
 [node name="Pause" type="Node3D" parent="Player/Camera"]
 process_mode = 3
@@ -376,9 +474,24 @@ font_size = 22
 horizontal_alignment = 0
 vertical_alignment = 0
 
-[node name="Modem" type="AudioStreamPlayer3D" parent="Player/Camera"]
+[node name="Map" type="MeshInstance3D" parent="Player/Camera"]
+transform = Transform3D(1, 0, 4.61853e-14, 0, -2.98023e-08, -1, 0, 1, -2.98023e-08, 1.45082, 0.46299, -1.19947)
+mesh = SubResource("PlaneMesh_m7ide")
+
+[node name="Label3D" type="Label3D" parent="Player/Camera/Map"]
+transform = Transform3D(1, -1.95399e-14, 0, 0, -2.98023e-08, 1, 0, -1, -2.98023e-08, -0.0165739, 0.00955898, -0.138462)
+pixel_size = 0.002
+modulate = Color(0.773094, 0, 0.249235, 1)
+text = "MAPPING ERROR!"
+font_size = 16
+
+[node name="M2" type="AudioStreamPlayer" parent="Player/Camera"]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Player"]
+libraries = {
+"": SubResource("AnimationLibrary_ms2yi")
+}
+autoplay = "map_fail_blihnk"
 
 [node name="Audio" type="AudioStreamPlayer3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.27855, 0)
@@ -444,5 +557,6 @@ libraries = {
 "": SubResource("AnimationLibrary_i1qv6")
 }
 
-[connection signal="finished" from="Player/Camera/Modem" to="." method="_on_modem_finished"]
+[connection signal="finished" from="Player/Camera/M2" to="." method="_on_m_2_finished"]
 [connection signal="finished" from="Player/Audio" to="." method="_on_audio_finished"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

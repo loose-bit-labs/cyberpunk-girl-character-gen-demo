@@ -21,14 +21,14 @@ float isSlider(vec2 uv) {
 	int face = faceOff();
 	switch(face) {
 		case 0: uv.y = 1. - uv.y;
-		case 1: 
-			
-			
-			return 
+		case 1:
+
+
+			return
 			( 1.- step(uv.x, .6) * step(.45, uv.x) *  step(uv.y, .37) * step(.02,uv.y)    )
 			*
-			
-			
+
+
 			step(uv.y, .4) * step(uv.x, .88) * step(.4, uv.x);
 		case 3: return step(uv.y,.88) * step(.4, uv.y);
 	}
@@ -46,7 +46,7 @@ void vertex() {
 void fragment() {
 	float slid = isSlider(UV);
 	ALBEDO.rgb = mix(BLUE, SILVER, slid);
-	
+
 	//low fi ruffness
 	float r = 128.;
 	vec3 n = hash22(floor(UV * r) / r).xyx * .44;

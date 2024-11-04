@@ -2,7 +2,7 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-uid="uid://dorys4as2cqgh"
+uid="uid://c5sbdkb4kgnk4"
 path="res://.godot/imported/shorter-the-sound-of-dial-up-internet-6240.mp3-2094ef5bdde15b95662c1cc34e342897.mp3str"
 
 [deps]
@@ -13,7 +13,7 @@ dest_files=["res://.godot/imported/shorter-the-sound-of-dial-up-internet-6240.mp
 [params]
 
 loop=false
-loop_offset=0
-bpm=0
+loop_offset=0.0
+bpm=0.0
 beat_count=0
 bar_beats=4

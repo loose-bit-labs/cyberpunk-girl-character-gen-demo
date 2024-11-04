@@ -2,7 +2,7 @@ extends Node
 
 #################################################################################################
 
-const CONFIGURATION_RESOURCE = "user://cyber-city-run.cfg"
+const CONFIGURATION_RESOURCE = "user://cyber-data-donk.cfg"
 const MAIN_AUDIO_BUS = "Master"
 const GLOBAL = "global"
 const MUTE = "mute"

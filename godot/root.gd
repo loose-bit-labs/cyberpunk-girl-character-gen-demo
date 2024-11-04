@@ -8,8 +8,9 @@ const SNAPPER = 88.88
 var flopster_scene = preload("res://flopster.tscn")
 
 @onready var audio = $Player/Audio
-@onready var modem = $Player/Camera/Modem
+@onready var modem = $Player/Camera/M2
 @onready var ground = $Floor
+@onready var map = $Player/Camera/Map
 @onready var floppin = $Floppin
 @onready var player = $Player
 @onready var animationPlayer = $AnimationPlayer
@@ -25,9 +26,10 @@ var OFFSET = Vector2(.0, .0)
 
 # harro whirld!
 func _ready() -> void:
+	_modemHackem()
 	new_game()
 	_floppyHacky()
-	_modemHackem()
+	#map.get_active_material(0).set_shader_parameter("OFFSET", OFFSET)
 
 # make the what ur collecting guy not be interactable
 func _floppyHacky() -> void:
@@ -39,7 +41,9 @@ func _floppyHacky() -> void:
 
 # really dunno why this should be needed keeps loosing the stream... :-/
 func _modemHackem():
-	modem.set_stream(UtilMe.load_mp3("res://shorter-the-sound-of-dial-up-internet-6240.mp3"))
+	pass 
+	# this just doesn't work :-/
+	#modem.set_stream(UtilMe.load_mp3("res://shorter-the-sound-of-dial-up-internet-6240.mp3"))
 
 # let's get it goin' on, ya'll!
 func new_game() -> void:
@@ -47,7 +51,6 @@ func new_game() -> void:
 	goal = 8
 	collected = 0
 	wanna.text = 'x %d' % goal
-	#animationPlayer.play("start_game")
 	animationPlayer.play("next_level")
 
 # snap the player and goodies back to the origin and update the shader offset 
@@ -56,6 +59,7 @@ func _snap() -> void:
 	OFFSET = OFFSET + update
 	print("SNAP! ", update, '->', OFFSET)
 	ground.get_active_material(0).set_shader_parameter("OFFSET", OFFSET)
+	map.get_active_material(0).set_shader_parameter("OFFSET", OFFSET)
 	_sway_with_me(update)
 	player.position.x = 0
 	player.position.z = 0
@@ -71,11 +75,13 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_mute"):
 		UtilMe.toggle_mute()
 	if not event.alt_pressed and event.is_action_pressed("ui_accept"):
-		modem.play()
+		animationPlayer.play("play_modem")
 
 # change the world seed
 func _seedling() -> void:
-	ground.get_active_material(0).set_shader_parameter("SEED", _rand3(434))
+	var seedling = _rand3(434)
+	ground.get_active_material(0).set_shader_parameter("SEED", seedling)
+	map.get_active_material(0).set_shader_parameter("SEED", seedling)
 
 # switch shader to playing mode
 func _shader_playing() -> void:
@@ -155,12 +161,12 @@ func _level_up() -> void:
 
 # start a new level
 func _next_level(text:String, new_goal:int) -> void:
-	#ground.visible = false
 	label.text = text
 	wanna.text = 'x %d' % goal
 	goal = new_goal
 	
 	collected = 0
+	_seedling()
 	animationPlayer.play("next_level")
 
 # junk now...
@@ -177,5 +183,5 @@ func _rand(f:float)-> float:
 func _on_audio_finished() -> void:
 	audio.play();
 
-func _on_modem_finished() -> void:
+func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	_seedling()

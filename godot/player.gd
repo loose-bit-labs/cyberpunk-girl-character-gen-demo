@@ -24,6 +24,8 @@ var camera_rotation: Vector2 = Vector2.ZERO
 @onready var animationPlayer : AnimationPlayer =  $"Pivot/toon/AnimationPlayer"
 @onready var toon = $"Pivot/toon"
 
+@onready var map = $Camera/Map
+
 func _ready() -> void:
 	UtilMe.grab_mouse()
 
@@ -61,6 +63,7 @@ func _physics_process(delta: float) -> void:
 	animationPlayer.play(_pick_animation(input_dir, jumping))
 	_update_camera(delta)
 	move_and_slide()
+	map.get_active_material(0).set_shader_parameter("PLAYER", global_position)
 
 func _move(input_dir, direction):
 	var increment = SPEED
